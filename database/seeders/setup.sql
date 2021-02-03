@@ -106,3 +106,13 @@ INSERT INTO `data_rows` (`id`, `data_type_id`, `field`, `type`, `display_name`, 
 (61, 13, 'provider_id', 'text', 'Provider Id', 1, 1, 1, 1, 1, 1, '{}', 2);
 COMMIT;
 
+START TRANSACTION;
+SET time_zone = "+00:00";
+INSERT INTO `menu_items` (`id`, `menu_id`, `title`, `url`, `target`, `icon_class`, `color`, `parent_id`, `order`, `created_at`, `updated_at`, `route`, `parameters`) VALUES
+(12, 1, 'Components', '', '_self', NULL, NULL, NULL, 7, '2021-01-18 07:51:00', '2021-01-18 07:56:18', 'voyager.components.index', NULL),
+(13, 1, 'Providers', '', '_self', NULL, NULL, NULL, 8, '2021-01-18 09:37:08', '2021-01-18 09:37:08', 'voyager.providers.index', NULL),
+(14, 1, 'Attributes', '', '_self', NULL, NULL, NULL, 9, '2021-01-19 12:58:27', '2021-01-19 12:58:27', 'voyager.attributes.index', NULL),
+(15, 1, 'Edge Constraints', '', '_self', NULL, NULL, NULL, 10, '2021-02-01 10:26:36', '2021-02-01 10:26:36', 'voyager.edge-constraints.index', NULL),
+(16, 1, 'Edges', '', '_self', NULL, NULL, NULL, 11, '2021-02-01 10:47:02', '2021-02-01 10:47:02', 'voyager.edges.index', NULL),
+(17, 1, 'Categories', '', '_self', NULL, NULL, NULL, 12, '2021-02-03 07:22:08', '2021-02-03 07:22:08', 'voyager.categories.index', NULL);
+COMMIT;
