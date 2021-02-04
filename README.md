@@ -66,6 +66,12 @@ Then create an admin user as follows:
 php artisan voyager:admin your@email.com --create
 ```
 
+And finally, call:
+```
+php artisan db:seed --class=UISeeder
+```
+to install missing UI elements.
+
 Now you can access the admin panel via `http://localhost/admin`
 
 ## Making the sever externally available
