@@ -86,9 +86,6 @@ new Vue({
         },
         remove: function(item) {
           this.constrains.splice(this.constrains.indexOf(item), 1);
-          this.constrains.forEach(function(item, index) {
-                item.id = index;
-           });
         }
     }
 });

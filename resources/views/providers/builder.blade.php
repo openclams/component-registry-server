@@ -205,12 +205,10 @@
                   },
                   remove: function(item) {
                     this.attributes.splice(this.attributes.indexOf(item), 1);
-                    this.attributes.forEach(function(item, index) {
-                          item.id = index;
-                     });
                   }
                 }
             });
+            
 
             /**
              * Set Variables
