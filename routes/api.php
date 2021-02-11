@@ -5,7 +5,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\ComponentController;
 use App\Http\Controllers\EdgeController;
-use Illuminate\Support\Facades\DB;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -20,45 +19,6 @@ use Illuminate\Support\Facades\DB;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-
-//Route::get('/test', function (Request $request) {
-//    $a = \App\Models\Attribute::all();
-//    $i = 1;
-//    foreach($a as $b){
-//        $affected = DB::table('attributes')
-//              ->where('id_name', $b->id_name)
-//              ->where('attributable_id', $b->attributable_id)
-//              ->update(['id' => $i++]);
-//    }    
-//    return [];
-//})->name('test');
-
-Route::get('/test', function (Request $request) {
-   
-    $total_edges = DB::table('edge_constraints')
-                ->select('edge_id')
-                ->whereIn('from_component_id', [2])
-                ->whereIn('to_component_id', [2])
-                ->where('type','Allow')
-                ->groupBy('edge_id')
-                ->get()
-                ->map(function($e){return $e->edge_id;});
-     
-    $no_edges = DB::table('edge_constraints')
-                ->select('edge_id')
-                ->whereIn('edge_id', $total_edges)
-                ->where('from_component_id', 2)
-                ->where('to_component_id', 4)
-                ->where('type','Exclude')
-                ->groupBy('edge_id')
-                ->get()
-                ->map(function($e){return $e->edge_id;});
-
-                
-    $edges = array_diff($total_edges, $no_edges);         
-    
-    return Edge::find($edges);
-})->name('test');
 
 /**
  * Load all providers

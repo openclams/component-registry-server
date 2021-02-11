@@ -24,6 +24,7 @@ class CreateComponentTemplate extends Migration
                     ->on('components')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
+            $table->integer('order')->unsigned()->default(0);
         });
     }
 
