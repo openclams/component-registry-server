@@ -75,14 +75,28 @@ class Component extends Model
                 "id" => $this->id,
                 "name"=> $this->name,
                 "img"=> ($this->img)? asset(Voyager::image($this->img)) : null, 
-                "components" => $this->components->toArray(),
                 "attributes" => $this->attributes()->get()->toArray(), 
         ];
         
-        if($this->isTamplate){
-            $result["components"] = $this->components->toArray();
+        if($this->isTemplate){
+            $result["components"] = $this->components()->orderBy('component_template.order', 'asc')->get()->toArray();
         }
         
         return $result;
+    }
+    
+    /**
+     * Display all its components.
+     *
+     * @return string
+     */
+    public  function display()
+    {
+        $components = $this->components()->orderBy('component_template.order', 'asc')->get();
+        
+        
+        return new \Illuminate\Support\HtmlString(
+            \Illuminate\Support\Facades\View::make('templates.list', ['components' => $components ])->render()
+        );
     }
 }

@@ -24,7 +24,17 @@ Route::group(['prefix' => 'admin'], function () {
     Route::group(['as' => 'voyager.'], function () {
         //Cloud Provider Routes
         $namespacePrefix = 'App\\Http\\Controllers\\Voyager\\';
-    
+        
+        Route::group([
+            'as'     => 'template.',
+            'prefix' => 'template/{component}',
+        ], function () use ($namespacePrefix) {
+            Route::get('builder', ['uses' => $namespacePrefix.'TemplateController@builder',    'as' => 'builder']);
+            Route::post('add', ['uses' => $namespacePrefix.'TemplateController@add_item', 'as' => 'add_item']);
+            Route::post('order', ['uses' => $namespacePrefix.'TemplateController@order_item', 'as' => 'order_item']);
+            Route::get('delete', ['uses' => $namespacePrefix.'TemplateController@delete_item', 'as' => 'delete_item']);
+        });
+        
         Route::group([
             'as'     => 'providers.',
             'prefix' => 'providers/{provider}',
