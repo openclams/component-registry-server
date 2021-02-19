@@ -39,7 +39,7 @@
                     <h4 class="modal-title"><i class="voyager-trash"></i> {{ __('voyager::menu_builder.delete_item_question') }}</h4>
                 </div>
                 <div class="modal-footer">
-                    <form action="{{ route('voyager.menus.item.destroy', ['menu' => $provider->id, 'id' => '__id']) }}"
+                    <form action="{{ route('voyager.providers.item.destroy', ['provider' => $provider->id, 'component' => '__id']) }}"
                           id="delete_form"
                           method="POST">
                         {{ method_field("DELETE") }}

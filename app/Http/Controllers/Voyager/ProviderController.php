@@ -90,14 +90,15 @@ class ProviderController extends \TCG\Voyager\Http\Controllers\Controller
     public function order_item(Request $request)
     {
         $componentOrder = json_decode($request->input('order'));
-
         $this->orderMenu($componentOrder, null);
     }
 
     private function orderMenu(array $componentItems, $parentId)
     {
         foreach ($componentItems as $index => $componentItem) {
-            $item = Component::findOrFail($componentItem->id);
+            if(empty($componentItem->id)){continue;}
+            $item = Component::find($componentItem->id);
+            if(!$item){continue;}
             $item->order = $index + 1;
             $item->parent_id = $parentId;
             $item->save();
