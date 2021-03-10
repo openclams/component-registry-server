@@ -20,6 +20,7 @@
                 </div>
             </div>
             <div class="dd-handle">
+                <small>[{{ $component->id }}]</small>
                 <img src='{{ asset(Voyager::image($component->img)) }}' style="height: 20px; width: 20px"/>
                 <span>{{ $component->name }}</span>
             </div>

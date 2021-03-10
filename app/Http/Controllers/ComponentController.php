@@ -42,4 +42,26 @@ class ComponentController extends Controller
     {
         return $component->children->toArray();
     }
+    
+    public function leafs(Component $component)
+    {
+        $leafs = [];
+        $stack =  [];
+        array_push($stack,$component);
+        
+        while(!empty($stack)){
+            $c = array_pop($stack);
+            
+            $children = $c->children;
+            
+            if($children->isEmpty()){
+                $leafs[] = $c;
+            }else{
+                foreach ($children as $child) {
+                     array_push($stack,$child);
+                } 
+            }
+        }
+        return $leafs;
+    }
 }

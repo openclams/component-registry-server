@@ -51,6 +51,11 @@ Route::get('/component/{component}/parents',[ComponentController::class, 'parent
 Route::get('/component/{component}/children',[ComponentController::class, 'children']); 
 
 /**
+ * Load the leaf component of the refinement sub-tree 
+ */
+Route::get('/component/{component}/leafs',[ComponentController::class, 'leafs']); 
+
+/**
  * Load a component
  */
 Route::get('/component/{component}',[ComponentController::class, 'index']); 
