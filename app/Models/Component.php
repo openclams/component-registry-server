@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use TCG\Voyager\Facades\Voyager;
 use Illuminate\Support\Facades\DB;
+use gburtini\Distributions\Beta;
+
 
 class Component extends Model
 {
@@ -69,6 +71,13 @@ class Component extends Model
     {
         return $this->belongsToMany(Component::class, 'component_template', 'template_id', 'component_id');
     }
+    
+    
+    public function availability()
+    {
+        return $this->hasOne(Availability::class);
+    }
+    
     public function toArray()
     {
         $result = [
@@ -76,10 +85,25 @@ class Component extends Model
                 "name"=> $this->name,
                 "img"=> ($this->img)? asset(Voyager::image($this->img)) : null, 
                 "attributes" => $this->attributes()->get()->toArray(), 
+                "costs" => $this->costs()->get()->toArray()
         ];
         
         if($this->isTemplate){
             $result["components"] = $this->components()->orderBy('component_template.order', 'asc')->get()->toArray();
+        }
+        
+        if(!$this->isTemplate && $this->children->isEmpty()){
+            if(!$this->availability){
+                $beta = new Beta(10000, 100);
+                $draw = $beta->rand();
+                $a = Availability::make();
+                $a->availability = $draw;
+                $a->component_id = $this->id; 
+                $a->save();
+                $result['attributes'][] = $a->toArray();
+            }else{
+                $result['attributes'][] = $this->availability->toArray();
+            }
         }
         
         return $result;
@@ -92,11 +116,10 @@ class Component extends Model
      */
     public  function display()
     {
-        $components = $this->components()->orderBy('component_template.order', 'asc')->get();
-        
-        
+        $components = $this->components()->withPivot('id')->orderBy('component_template.order', 'asc')->get();
+       
         return new \Illuminate\Support\HtmlString(
-            \Illuminate\Support\Facades\View::make('templates.list', ['components' => $components ])->render()
+            \Illuminate\Support\Facades\View::make('templates.list', ['components' => $components])->render()
         );
     }
 }

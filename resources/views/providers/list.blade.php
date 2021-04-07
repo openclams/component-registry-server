@@ -5,7 +5,7 @@
         $count = $component->childernCount();
     ?>
    
-        <li class="dd-item" data-id="{{ $component->id }}">
+        <li class="dd-item" data-id="{{ $component->id }}" >
             <div class="pull-right item_actions">
                 <div class="btn btn-sm btn-danger pull-right delete" data-id="{{ $component->id }}">
                     <i class="voyager-trash"></i> {{ __('voyager::generic.delete') }}

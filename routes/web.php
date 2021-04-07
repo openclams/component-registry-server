@@ -32,7 +32,7 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('builder', ['uses' => $namespacePrefix.'TemplateController@builder',    'as' => 'builder']);
             Route::post('add', ['uses' => $namespacePrefix.'TemplateController@add_item', 'as' => 'add_item']);
             Route::post('order', ['uses' => $namespacePrefix.'TemplateController@order_item', 'as' => 'order_item']);
-            Route::get('delete', ['uses' => $namespacePrefix.'TemplateController@delete_item', 'as' => 'delete_item']);
+            Route::delete('', ['uses' => $namespacePrefix.'TemplateController@delete_item', 'as' => 'delete_item']);
         });
         
         Route::group([

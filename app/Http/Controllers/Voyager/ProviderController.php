@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Voyager;
 use Illuminate\Http\Request;
 use App\Models\Provider;
 use App\Models\Component;
-
+use Illuminate\Support\Facades\DB;
 
 class ProviderController extends \TCG\Voyager\Http\Controllers\Controller
 {
@@ -96,17 +96,27 @@ class ProviderController extends \TCG\Voyager\Http\Controllers\Controller
     private function orderMenu(array $componentItems, $parentId)
     {
         foreach ($componentItems as $index => $componentItem) {
+            
             if(empty($componentItem->id)){continue;}
+            
             $item = Component::find($componentItem->id);
+            
             if(!$item){continue;}
+            
             $item->order = $index + 1;
+            
             $item->parent_id = $parentId;
+            
             $item->save();
 
             if (isset($componentItem->children)) {
+               
                 $this->orderMenu($componentItem->children, $item->id);
+                
             }
+            
+           
         }
     }
-
+    
 }

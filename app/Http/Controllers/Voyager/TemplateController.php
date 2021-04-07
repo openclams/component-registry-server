@@ -5,9 +5,10 @@ namespace App\Http\Controllers\Voyager;
 use Illuminate\Http\Request;
 use App\Models\Provider;
 use App\Models\Component;
+use Illuminate\Support\Facades\DB;
 
 
-class ProviderController extends \TCG\Voyager\Http\Controllers\Controller
+class TemplateController extends \TCG\Voyager\Http\Controllers\Controller
 {
     public function builder(Component $component)
     {    
@@ -16,96 +17,53 @@ class ProviderController extends \TCG\Voyager\Http\Controllers\Controller
         return view('templates.builder', compact('component'));
     }
 
-    public function delete_item(Provider $provider, Component $component)
+    public function delete_item(Request $request, Component $component)
     {
-//        $this->authorize('delete', $component);
-//
-//        $component->attributes()->delete();
-//        
-//        $component->delete();
-//        
-//        return redirect()
-//            ->route('voyager.providers.builder', [$provider->id])
-//            ->with([
-//                'message'    => "Successfully deleted.",
-//                'alert-type' => 'success',
-//            ]);
+        $this->authorize('delete', $component);
+
+        $data =  $request->all();
+        
+        $pivot_id = $data['pivot'];
+        
+        DB::table('component_template')->where('id', '=', $pivot_id)->delete();
+        
+        return redirect()
+            ->route('voyager.template.builder', [$component->id])
+            ->with([
+                'message'    => "Successfully deleted.",
+                'alert-type' => 'success',
+            ]);
     }
 
-    public function add_item(Request $request, Provider $provider)
+    public function add_item(Request $request, Component $component)
     {
-//        $this->authorize('add', $provider);
-//
-//        $data =  $request->all();
-//
-//        unset($data['id']);
-//        
-//        //$data['order'] = DB::table('components')->max('order') + 1 ;
-//
-//        $c = Component::make();
-//        $c->name = $data['name'];
-//        $c->img  = $data['img'];
-//        $c->isTemplate = $data['isTemplate'];
-//        $c->provider_id = $provider->id;
-//        $c->order = 0;
-//        $c->save();
-//        
-//        $attributes = json_decode($data['attributes']);
-//        \AttributeHelper::instance()->update_attributes($c,$attributes);
-//        
-//        return redirect()
-//            ->route('voyager.providers.builder', [$data['provider_id']])
-//            ->with([
-//                'message'    => "New Component Added: ",
-//                'alert-type' => 'success',
-//            ]);
+        $this->authorize('add', $component);
+        
+        $data =  $request->all();
+        
+        $component_id = $data['component_id'];
+        
+        $component->components()->attach($component_id);
+        
+        return redirect()
+            ->route('voyager.template.builder', [$component->id])
+            ->with([
+                'message'    => "Successfully added.",
+                'alert-type' => 'success',
+            ]);
     }
 
-    public function update_item(Request $request, Provider $provider)
+    public function order_item(Request $request, Component $component)
     {
-//        $id = $request->input('id');
-//        $data = $request->except(['id']);
-//      
-//
-//        $c = Component::findOrFail($id);
-//
-//        $this->authorize('edit', $provider);
-//
-//        $c->name = $data['name'];
-//        $c->img  = $data['img'];
-//        $c->isTemplate = $data['isTemplate'];
-//        $c->save();
-//        
-//        $attributes = json_decode($data['attributes']);
-//        \AttributeHelper::instance()->update_attributes($c,$attributes);
-//
-//        return redirect()
-//            ->route('voyager.providers.builder', [$provider->id])
-//            ->with([
-//                'message'    => "Update was successful.",
-//                'alert-type' => 'success',
-//            ]);
+        $componentOrder = json_decode($request->input('order'));
+
+        foreach ($componentOrder as $index => $componentItem) {
+            DB::table('component_template')
+              ->where('id', $componentItem->pivot)
+              ->update( ['order' => $index + 1 ]);
+        }       
     }
 
-    public function order_item(Request $request)
-    {
-//        $componentOrder = json_decode($request->input('order'));
-//
-//        $this->orderMenu($componentOrder, null);
-    }
-
-    private function orderMenu(array $componentItems, $parentId)
-    {
-//        foreach ($componentItems as $index => $componentItem) {
-//            $item = Component::findOrFail($componentItem->id);
-//            $item->order = $index + 1;
-//            $item->parent_id = $parentId;
-//            $item->save();
-//
-//            if (isset($componentItem->children)) {
-//                $this->orderMenu($componentItem->children, $item->id);
-//            }
-//        }
-    }
+    
 
 }

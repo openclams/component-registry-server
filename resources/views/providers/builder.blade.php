@@ -175,6 +175,20 @@
     <script>
         $(document).ready(function () {
 
+            var collapseList = localStorage.getItem("collapseList");
+            if (!collapseList){
+                collapseList = []
+            }else{
+                collapseList =  JSON.parse(collapseList)
+                collapseList.forEach(function(e){
+                    c = $('#listComponents .dd-item[data-id="'+e+'"]');
+                    console.log(c,e)
+                    if(c){
+                        c.addClass('dd-collapsed');
+                    }
+                });
+            }
+
             $('#listComponents').nestable({
                 //expandBtnHTML: '',
                 //collapseBtnHTML: '',
@@ -188,7 +202,7 @@
                 data: imgData
             });
             
-             var attrData = { attributes: []}
+            var attrData = { attributes: []}
 
             var attributeList = new Vue({
                 el: "#attributeList",
@@ -302,6 +316,27 @@
                     toastr.success("Order has been updated");
                 });
             });
+            
+            
+         
+            
+            $('#listComponents').on('click', 'button', function(e) {
+                var target = $(e.currentTarget),
+                    action = target.data('action');
+                    id = target.parents().eq(0).data('id');
+                if (action === 'collapse') {
+                   collapseList.push(id)
+                   localStorage.setItem("collapseList",JSON.stringify(collapseList))
+                }
+                if (action === 'expand') {
+                    const index = collapseList.indexOf(id);
+                    if (collapseList > -1) {
+                      collapseList.splice(index, 1);
+                      localStorage.setItem("collapseList",JSON.stringify(collapseList))
+                    }
+                }
+            });
+            
         });
     </script>
 @stop
