@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 03, 2021 at 02:13 PM
+-- Generation Time: Jun 02, 2021 at 02:46 PM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.4
 
@@ -18,30 +18,8 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
---
--- Dumping data for table `data_types`
---
 
-INSERT INTO `data_types` (`id`, `name`, `slug`, `display_name_singular`, `display_name_plural`, `icon`, `model_name`, `policy_name`, `controller`, `description`, `generate_permissions`, `server_side`, `details`, `created_at`, `updated_at`) VALUES
-(1, 'users', 'users', 'User', 'Users', 'voyager-person', 'TCG\\Voyager\\Models\\User', 'TCG\\Voyager\\Policies\\UserPolicy', 'TCG\\Voyager\\Http\\Controllers\\VoyagerUserController', '', 1, 0, NULL, '2021-01-18 07:39:07', '2021-01-18 07:39:07'),
-(2, 'menus', 'menus', 'Menu', 'Menus', 'voyager-list', 'TCG\\Voyager\\Models\\Menu', NULL, '', '', 1, 0, NULL, '2021-01-18 07:39:07', '2021-01-18 07:39:07'),
-(3, 'roles', 'roles', 'Role', 'Roles', 'voyager-lock', 'TCG\\Voyager\\Models\\Role', NULL, 'TCG\\Voyager\\Http\\Controllers\\VoyagerRoleController', '', 1, 0, NULL, '2021-01-18 07:39:07', '2021-01-18 07:39:07'),
-(5, 'components', 'components', 'Component', 'Components', NULL, 'App\\Models\\Component', NULL, '\\App\\Http\\Controllers\\Voyager\\ComponentController', NULL, 1, 1, '{\"order_column\":null,\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2021-01-18 07:51:00', '2021-02-03 07:30:53'),
-(6, 'providers', 'providers', 'Provider', 'Providers', NULL, 'App\\Models\\Provider', NULL, NULL, NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null}', '2021-01-18 09:37:08', '2021-01-18 09:37:08'),
-(7, 'attributes', 'attributes', 'Attribute', 'Attributes', NULL, 'App\\Models\\Attribute', NULL, NULL, NULL, 1, 1, '{\"order_column\":null,\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":\"id_name\",\"scope\":null}', '2021-01-19 12:58:27', '2021-01-31 16:09:41'),
-(9, 'edge_constraints', 'edge-constraints', 'Edge Constraint', 'Edge Constraints', NULL, 'App\\Models\\EdgeConstraint', NULL, NULL, NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2021-02-01 10:26:36', '2021-02-01 10:33:01'),
-(11, 'edges', 'edges', 'Edge', 'Edges', NULL, 'App\\Models\\Edge', NULL, '\\App\\Http\\Controllers\\Voyager\\EdgeController', NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2021-02-01 10:47:02', '2021-02-02 12:36:03'),
-(13, 'categories', 'categories', 'Category', 'Categories', NULL, 'App\\Models\\Category', NULL, NULL, NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null}', '2021-02-03 07:22:08', '2021-02-03 07:22:08');
-COMMIT;
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
---
--- Dumping data for table `data_rows`
---
-START TRANSACTION;
-SET time_zone = "+00:00";
 INSERT INTO `data_rows` (`id`, `data_type_id`, `field`, `type`, `display_name`, `required`, `browse`, `read`, `edit`, `add`, `delete`, `details`, `order`) VALUES
 (1, 1, 'id', 'number', 'ID', 1, 0, 0, 0, 0, 0, NULL, 1),
 (2, 1, 'name', 'text', 'Name', 1, 1, 1, 1, 1, 1, NULL, 2),
@@ -84,7 +62,7 @@ INSERT INTO `data_rows` (`id`, `data_type_id`, `field`, `type`, `display_name`, 
 (39, 7, 'readable', 'text', 'Readable', 0, 1, 1, 1, 1, 1, '{}', 9),
 (40, 7, 'attributable_id', 'text', 'Entity ID', 1, 1, 1, 1, 1, 1, '{}', 2),
 (41, 7, 'attributable_type', 'text', 'Entity Type', 1, 1, 1, 1, 1, 1, '{\"default\":\"App\\\\Models\\\\Component\",\"options\":{\"App\\\\Models\\\\Component\":\"Component Attribute\",\"App\\\\Models\\\\Edge\":\"Edge Attribute\"}}', 3),
-(42, 5, 'component_belongsto_component_relationship', 'relationship', 'Parent', 0, 1, 1, 1, 1, 1, '{\"model\":\"App\\\\Models\\\\Component\",\"table\":\"components\",\"type\":\"belongsTo\",\"column\":\"provider_id\",\"key\":\"id\",\"label\":\"name\",\"pivot_table\":\"attributes\",\"pivot\":\"0\",\"taggable\":\"0\"}', 6),
+(42, 5, 'component_belongsto_component_relationship', 'relationship', 'Parent', 0, 1, 1, 1, 1, 1, '{\"model\":\"App\\\\Models\\\\Component\",\"table\":\"components\",\"type\":\"belongsTo\",\"column\":\"parent_id\",\"key\":\"id\",\"label\":\"name\",\"pivot_table\":\"attributes\",\"pivot\":\"0\",\"taggable\":\"0\"}', 6),
 (43, 5, 'order', 'text', 'Order', 1, 0, 0, 0, 0, 0, '{}', 6),
 (44, 5, 'parent_id', 'text', 'Parent Id', 0, 0, 0, 0, 0, 0, '{}', 7),
 (45, 5, 'component_belongstomany_component_relationship', 'relationship', 'components', 0, 1, 1, 1, 1, 1, '{\"foreign_pivot_key\":\"template_id\",\"related_pivot_key\":\"component_id\",\"parent_key\":\"id\",\"model\":\"App\\\\Models\\\\Component\",\"table\":\"components\",\"type\":\"belongsToMany\",\"column\":\"id\",\"key\":\"id\",\"label\":\"name\",\"pivot_table\":\"component_template\",\"pivot\":\"1\",\"taggable\":\"0\"}', 8),
@@ -105,6 +83,29 @@ INSERT INTO `data_rows` (`id`, `data_type_id`, `field`, `type`, `display_name`, 
 (60, 13, 'name', 'text', 'Name', 1, 1, 1, 1, 1, 1, '{}', 3),
 (61, 13, 'provider_id', 'text', 'Provider Id', 1, 1, 1, 1, 1, 1, '{}', 2);
 COMMIT;
+-- --------------------------------------------------------
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+--
+-- Dumping data for table `data_rows`
+--
+START TRANSACTION;
+SET time_zone = "+00:00";
+INSERT INTO `data_types` (`id`, `name`, `slug`, `display_name_singular`, `display_name_plural`, `icon`, `model_name`, `policy_name`, `controller`, `description`, `generate_permissions`, `server_side`, `details`, `created_at`, `updated_at`) VALUES
+(1, 'users', 'users', 'User', 'Users', 'voyager-person', 'TCG\\Voyager\\Models\\User', 'TCG\\Voyager\\Policies\\UserPolicy', 'TCG\\Voyager\\Http\\Controllers\\VoyagerUserController', '', 1, 0, NULL, '2021-01-18 07:39:07', '2021-01-18 07:39:07'),
+(2, 'menus', 'menus', 'Menu', 'Menus', 'voyager-list', 'TCG\\Voyager\\Models\\Menu', NULL, '', '', 1, 0, NULL, '2021-01-18 07:39:07', '2021-01-18 07:39:07'),
+(3, 'roles', 'roles', 'Role', 'Roles', 'voyager-lock', 'TCG\\Voyager\\Models\\Role', NULL, 'TCG\\Voyager\\Http\\Controllers\\VoyagerRoleController', '', 1, 0, NULL, '2021-01-18 07:39:07', '2021-01-18 07:39:07'),
+(5, 'components', 'components', 'Component', 'Components', NULL, 'App\\Models\\Component', NULL, '\\App\\Http\\Controllers\\Voyager\\ComponentController', NULL, 1, 1, '{\"order_column\":null,\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2021-01-18 07:51:00', '2021-04-07 07:54:51'),
+(6, 'providers', 'providers', 'Provider', 'Providers', NULL, 'App\\Models\\Provider', NULL, NULL, NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null}', '2021-01-18 09:37:08', '2021-01-18 09:37:08'),
+(7, 'attributes', 'attributes', 'Attribute', 'Attributes', NULL, 'App\\Models\\Attribute', NULL, NULL, NULL, 1, 1, '{\"order_column\":null,\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":\"id_name\",\"scope\":null}', '2021-01-19 12:58:27', '2021-01-31 16:09:41'),
+(9, 'edge_constraints', 'edge-constraints', 'Edge Constraint', 'Edge Constraints', NULL, 'App\\Models\\EdgeConstraint', NULL, NULL, NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2021-02-01 10:26:36', '2021-02-01 10:33:01'),
+(11, 'edges', 'edges', 'Edge', 'Edges', NULL, 'App\\Models\\Edge', NULL, '\\App\\Http\\Controllers\\Voyager\\EdgeController', NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null,\"scope\":null}', '2021-02-01 10:47:02', '2021-02-02 12:36:03'),
+(13, 'categories', 'categories', 'Category', 'Categories', NULL, 'App\\Models\\Category', NULL, NULL, NULL, 1, 0, '{\"order_column\":null,\"order_display_column\":null,\"order_direction\":\"asc\",\"default_search_key\":null}', '2021-02-03 07:22:08', '2021-02-03 07:22:08');
+COMMIT;
+-- --------------------------------------------------------
+
 
 START TRANSACTION;
 SET time_zone = "+00:00";
@@ -116,3 +117,6 @@ INSERT INTO `menu_items` (`id`, `menu_id`, `title`, `url`, `target`, `icon_class
 (16, 1, 'Edges', '', '_self', NULL, NULL, NULL, 11, '2021-02-01 10:47:02', '2021-02-01 10:47:02', 'voyager.edges.index', NULL),
 (17, 1, 'Categories', '', '_self', NULL, NULL, NULL, 12, '2021-02-03 07:22:08', '2021-02-03 07:22:08', 'voyager.categories.index', NULL);
 COMMIT;
+--
+-- Indexes for dumped tables
+--
