@@ -3,6 +3,10 @@
 @foreach ($components as $component)
     <?php
         $count = $component->childernCount();
+        $categories = "";
+        foreach($component->category as $category){
+            $categories .= $category->name;
+        }
     ?>
    
         <li class="dd-item" data-id="{{ $component->id }}" >
@@ -22,9 +26,9 @@
             <div class="dd-handle">
                 <small>[{{ $component->id }}]</small>
                 <img src='{{ asset(Voyager::image($component->img)) }}' style="height: 20px; width: 20px"/>
-                <span>{{ $component->name }}</span>
+                <span>{{ $component->name }}</span> <i><small>{{ $categories }}</small></i>
             </div>
-            @if ($count < 20)
+            @if ($count < 10)
                 @if(!$component->children->isEmpty())
                     @include('providers.list', ['components' => $component->children])
                 @endif

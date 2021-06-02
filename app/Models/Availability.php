@@ -29,8 +29,8 @@ class Availability extends Model
     public function toArray()
     {
         return [
-            "id" => 'availability',
-            "name" => "_Availability",
+            "id" => '_availability',
+            "name" => "Availability",
             "type" => 'number',
             "value" => $this->availability 
         ];

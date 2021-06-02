@@ -44,6 +44,10 @@
                           method="POST">
                         {{ method_field("DELETE") }}
                         {{ csrf_field() }}
+                        <input class="form-check-input" type="checkbox" value="1" checked id="removeAll" name='removeAll'>
+                        <label class="form-check-label" for="removeAll">
+                          Delete all leaves.
+                        </label>
                         <input type="submit" class="btn btn-danger pull-right delete-confirm"
                                value="{{ __('voyager::menu_builder.delete_item_confirm') }}">
                     </form>

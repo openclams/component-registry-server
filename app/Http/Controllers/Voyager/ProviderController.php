@@ -16,13 +16,32 @@ class ProviderController extends \TCG\Voyager\Http\Controllers\Controller
         return view('providers.builder', compact('provider'));
     }
 
-    public function delete_item(Provider $provider, Component $component)
+    public function delete_item(Request $request, Provider $provider, Component $component)
     {
         $this->authorize('delete', $component);
 
-        $component->attributes()->delete();
+        $data = $request->all();
+
+        if(isset($data['removeAll'])){
+            
+            $this->delete_leaves($component);
+            return redirect()
+            ->route('voyager.providers.builder', [$provider->id])
+            ->with([
+                'message'    => "Successfully deleted all leaves.",
+                'alert-type' => 'success',
+            ]);
+        }else{
+            
+            $this->delete_component($component);
         
-        $component->delete();
+            return redirect()
+            ->route('voyager.providers.builder', [$provider->id])
+            ->with([
+                'message'    => "Successfully deleted.",
+                'alert-type' => 'success',
+            ]);
+        }
         
         return redirect()
             ->route('voyager.providers.builder', [$provider->id])
@@ -31,6 +50,48 @@ class ProviderController extends \TCG\Voyager\Http\Controllers\Controller
                 'alert-type' => 'success',
             ]);
     }
+    
+    public function delete_component(Component $component)
+    {
+        $component->costs()->delete();
+        
+        $component->attributes()->delete();
+        
+        $children = $component->children()->get();
+
+        foreach ($children as $child){
+
+            $child->parent_id = null;
+
+            $child->save();
+        } 
+       
+        $component->delete();   
+    }
+    
+    
+     public function delete_leaves(Component $component)
+    {
+        $stack =  [];
+        
+        array_push($stack,$component);
+        
+        while(!empty($stack)){
+            
+            $c = array_pop($stack);
+            
+            $children = $c->children()->get();
+            
+            foreach ($children as $child){
+                
+                 array_push($stack,$child);
+                 
+            } 
+
+            $this->delete_component($c);
+        }
+    }
+    
 
     public function add_item(Request $request, Provider $provider)
     {

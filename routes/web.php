@@ -17,6 +17,48 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+function ComponentLeafs(App\Models\Component $component)
+    {
+        $leafs = [];
+        $stack =  [];
+        array_push($stack,$component);
+        
+        while(!empty($stack)){
+            $c = array_pop($stack);
+            
+            $children = $c->children;
+            
+            if($children->isEmpty()){
+                $leafs[] = $c;
+            }else{
+                foreach ($children as $child) {
+                     array_push($stack,$child);
+                } 
+            }
+        }
+        return $leafs;
+    }
+
+ Route::get('test', function(){
+     $categories = App\Models\Category::all();
+     $temp = [];
+     $comp = [];
+     foreach($categories as $category){
+         $comp[$category->name] = [];
+         foreach($category->components as $component){
+            $name = $component->name;
+            $count = count(ComponentLeafs($component));
+            if(!isset($temp[$name])){
+                $temp[$name] = $count;
+            }
+            
+            $comp[$category->name][] = ['name' => $name, 'count' => $temp[$name]];
+         }
+     }
+     
+     return [$comp,$temp];
+ });
+
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
