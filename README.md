@@ -26,6 +26,8 @@ First we apply the default configuration of the Laraval application.
 cd component-registry-server
 cp env-example .env
 ```
+Open the `.env` file, and change the `DB_*` variables.
+If you use the standard configuration, then you need to change at least `DB_DATABASE` to `default`,
 
 Next we change to the laradock folder to install and setup the server.
 
@@ -48,8 +50,16 @@ After docker has booted up all container images, we can start with the actual se
 
 ## Setting up the Application
 
+Enter the bash of the container with:
+
 ```
 docker-compose exec  workspace bash
+```
+
+or if it does not work use:
+
+```
+docker exec -it laradock_workspace_1  /bin/bash
 ```
 
 You should be  connected to the bash of the docker container now. 
@@ -57,7 +67,10 @@ Next call the following commands.
 
 ```
 /var/www# composer install
+/var/www# php artisan key:generate
 /var/www# php artisan voyager:install
+/var/www# php artisan route:clear
+/var/www# php artisan cache:clear
 ```
 
 Then create an admin user as follows:
