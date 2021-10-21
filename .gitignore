@@ -14,3 +14,10 @@ yarn-error.log
 /nbproject
 
 /storage/*
+
+/laradock
+
+/.idea
+
+
+**/.DS_Store
