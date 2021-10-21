@@ -24,7 +24,6 @@ First we apply the default configuration of the Laraval application.
 
 ```
 cd component-registry-server
-cp env-example .env
 ```
 Open the `.env` file, and change the `DB_*` variables.
 If you use the standard configuration, then you need to change at least `DB_DATABASE` to `default`,
@@ -33,7 +32,7 @@ Next we change to the laradock folder to install and setup the server.
 
 ```
 cd ../laradock
-cp env-example .env
+cp .env-example .env
 ```
 
 Open the `.env` file, and change the `APP_CODE_PATH_HOST` variable to the application's path.
